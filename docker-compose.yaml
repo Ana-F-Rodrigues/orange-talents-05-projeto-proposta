@@ -7,7 +7,7 @@ services:
     volumes:
       - volume-mysql:/var/lib/mysql
     ports:
-      - 3336:3330
+      - 3306:3306
     environment:
       MYSQL_DATABASE: mysql_proposta
       MYSQL_ROOT_PASSWORD: 123
