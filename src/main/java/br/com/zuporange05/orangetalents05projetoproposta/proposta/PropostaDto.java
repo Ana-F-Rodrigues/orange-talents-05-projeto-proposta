@@ -28,6 +28,8 @@ public class PropostaDto {
 	@NotNull
 	@Positive
 	private BigDecimal salario;
+	
+	private StatusProposta statusProposta;
 
 	public PropostaDto(String documento, String email, String nome, String endereco, BigDecimal salario) {
 
@@ -36,6 +38,7 @@ public class PropostaDto {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+	
 	}
 	
 	public Proposta converter(PropostaDto propostaDto) {
@@ -67,12 +70,9 @@ public class PropostaDto {
 		return salario;
 	}
 
-	public Proposta toModel() {
 
-		return new Proposta(documento, email, nome, endereco, salario);
-
+	public StatusProposta getStatusProposta() {
+		return this.statusProposta;
 	}
-
-	
 
 }

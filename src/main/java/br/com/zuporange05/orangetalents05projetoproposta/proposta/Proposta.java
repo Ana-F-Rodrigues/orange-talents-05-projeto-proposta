@@ -3,11 +3,13 @@ package br.com.zuporange05.orangetalents05projetoproposta.proposta;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
 public class Proposta {
@@ -26,6 +28,9 @@ public class Proposta {
 
 	private BigDecimal salario;
 
+	@Enumerated(EnumType.STRING)
+	private StatusProposta statusProposta;
+
 	@Deprecated
 	public Proposta() {
 
@@ -38,11 +43,31 @@ public class Proposta {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.salario = salario;
+
 	}
 
-	public Object getId() {
-		
+	public Long getId() {
+
 		return id;
 	}
 
+	public String getDocumento() {
+
+		return documento;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public StatusProposta getStatusProposta() {
+		return this.statusProposta;
+	}
+
+	public void atualizaStatusProposta( StatusProposta restricao){
+
+        this.statusProposta = restricao;
+	}
+	
 }
+
