@@ -8,6 +8,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import br.com.zuporange05.orangetalents05projetoproposta.cartoes.Cartao;
 
 
 
@@ -27,6 +30,9 @@ public class Proposta {
 	private String endereco;
 
 	private BigDecimal salario;
+	
+	@OneToOne
+	private Cartao cartao;
 
 	@Enumerated(EnumType.STRING)
 	private StatusProposta statusProposta;
@@ -68,6 +74,15 @@ public class Proposta {
 
         this.statusProposta = restricao;
 	}
+
+	public Cartao getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
+	}
+	
 	
 }
 
