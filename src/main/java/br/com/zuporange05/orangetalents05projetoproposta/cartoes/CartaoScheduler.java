@@ -1,4 +1,4 @@
-package br.com.zuporange05.orangetalents05projetoproposta;
+package br.com.zuporange05.orangetalents05projetoproposta.cartoes;
 
 import java.util.List;
 
@@ -6,10 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.zuporange05.orangetalents05projetoproposta.cartoes.Cartao;
-import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoDto;
-import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoFeign;
-import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoRepository;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.Proposta;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.PropostaRepository;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.StatusProposta;
