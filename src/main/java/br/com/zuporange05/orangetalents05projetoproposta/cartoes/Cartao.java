@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import br.com.zuporange05.orangetalents05projetoproposta.biometria.Biometria;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.Proposta;
 
 @Entity
@@ -27,6 +28,9 @@ public class Cartao {
 
 	@OneToOne(mappedBy = "cartao")
 	private Proposta proposta;
+	
+	@OneToOne(mappedBy = "cartao")
+	private Biometria biometria;
 
 	@Deprecated
 	public Cartao() {
