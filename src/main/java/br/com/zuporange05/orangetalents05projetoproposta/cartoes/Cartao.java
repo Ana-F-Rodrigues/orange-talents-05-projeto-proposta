@@ -2,13 +2,18 @@ package br.com.zuporange05.orangetalents05projetoproposta.cartoes;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import br.com.zuporange05.orangetalents05projetoproposta.biometria.Biometria;
+import br.com.zuporange05.orangetalents05projetoproposta.bloqueio.BloqueioCartao;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.Proposta;
 
 @Entity
@@ -31,6 +36,12 @@ public class Cartao {
 	
 	@OneToOne(mappedBy = "cartao")
 	private Biometria biometria;
+	
+	@OneToOne(cascade = CascadeType.MERGE) @JoinColumn(name = "bloqueio_cartao")
+    private BloqueioCartao bloqueio;
+	
+	@Enumerated(value = EnumType.STRING)
+	private StatusCartao statusCartao = StatusCartao.ATIVO;
 
 	@Deprecated
 	public Cartao() {
@@ -69,5 +80,27 @@ public class Cartao {
 	public Proposta getProposta() {
 		return proposta;
 	}
+	
+	public BloqueioCartao getBloqueio() {
+		return bloqueio;
+	}
+
+	public void setBloqueio(BloqueioCartao bloqueio) {
+		this.bloqueio = bloqueio;
+	}
+
+	public StatusCartao getStatusCartao() {
+		return statusCartao;
+	}
+	
+	public boolean bloqueado() {
+		
+		return this.statusCartao.equals(StatusCartao.BLOQUEADO);
+		
+	}
+	
+	public void adicionaBloqueio() {
+        this.statusCartao = StatusCartao.BLOQUEADO;
+    }
 
 }
