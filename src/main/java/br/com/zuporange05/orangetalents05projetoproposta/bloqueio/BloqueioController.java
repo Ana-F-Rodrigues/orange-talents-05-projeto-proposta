@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,10 +43,10 @@ public class BloqueioController {
 	}
 
 	@PostMapping("/{id}")
-	public ResponseEntity<?> bloquearCartao(@RequestParam("id") Long id, HttpServletRequest request,
-			@RequestBody @Valid BloqueioDto bloqueioDto, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<?> bloquearCartao(@PathVariable("id") String id, @RequestBody @Valid BloqueioDto bloqueioDto,
+			HttpServletRequest request, UriComponentsBuilder uriComponentsBuilder) {
 
-		Optional<Cartao> checaCartao = cartaoRepository.findById(id);
+		Optional<Cartao> checaCartao = cartaoRepository.findByNumeroCartao(id);
 
 		if (checaCartao.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -72,7 +73,7 @@ public class BloqueioController {
 
 			bloqueioCartao = bloqueioCartaoRepository.save(bloqueioCartao);
 
-			cartaoFeign.bloqueioCartao(cartao.getNumeroCartao(), new BloqueioDto(bloqueioDto));
+			cartaoFeign.bloqueioCartao(cartao.getNumeroCartao() ,bloqueioDto);
 
 			URI uri = uriComponentsBuilder.path("/bloqueio/{id}").build(bloqueioCartao.getId());
 			return ResponseEntity.created(uri).build();

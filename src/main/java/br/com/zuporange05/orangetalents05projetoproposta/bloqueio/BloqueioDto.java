@@ -2,6 +2,9 @@ package br.com.zuporange05.orangetalents05projetoproposta.bloqueio;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import br.com.zuporange05.orangetalents05projetoproposta.cartoes.Cartao;
 
 public class BloqueioDto {
@@ -14,8 +17,9 @@ public class BloqueioDto {
 		return sistemaResponsavel;
 	}
 	
-	public BloqueioDto(BloqueioDto request) {
-        this.sistemaResponsavel = request.getSistemaResponsavel();
+	@JsonCreator(mode = Mode.PROPERTIES)
+	public BloqueioDto(String request) {
+        this.sistemaResponsavel = request;
     }
 
 	public BloqueioCartao toModel(String ipSolicitante, String userAgent,

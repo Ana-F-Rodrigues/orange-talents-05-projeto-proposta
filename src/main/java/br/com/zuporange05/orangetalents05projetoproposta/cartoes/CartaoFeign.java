@@ -17,8 +17,8 @@ public interface CartaoFeign {
 	CartaoDto buscarCartao(@RequestParam(name="idProposta") Long idProposta);
 	
 
-	@PostMapping("/{id}/bloqueios")
-    public BloqueioDetalhe bloqueioCartao(@PathVariable(name = "id") String numeroCartao, @RequestBody BloqueioDto request);
+	@PostMapping("api/cartoes/{id}/bloqueios")
+    BloqueioDetalhe bloqueioCartao(@PathVariable(name = "id") String numeroCartao, @RequestBody BloqueioDto request);
 	
 
 }
