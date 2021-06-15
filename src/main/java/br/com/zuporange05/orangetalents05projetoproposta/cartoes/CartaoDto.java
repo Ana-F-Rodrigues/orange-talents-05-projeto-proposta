@@ -36,7 +36,7 @@ public class CartaoDto {
 	public Cartao toModel(PropostaRepository propostaRepository) {
 
 		Proposta proposta = propostaRepository.findById(idProposta).get();
-		return new Cartao(id, emitidoEm, titular, limite, proposta);
+		return new Cartao(id, LocalDateTime.now(), titular, limite, proposta);
 
 	}
 

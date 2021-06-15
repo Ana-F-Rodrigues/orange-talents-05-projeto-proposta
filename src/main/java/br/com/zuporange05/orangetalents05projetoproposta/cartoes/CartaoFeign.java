@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.zuporange05.orangetalents05projetoproposta.bloqueio.BloqueioDetalhe;
 import br.com.zuporange05.orangetalents05projetoproposta.bloqueio.BloqueioDto;
+import br.com.zuporange05.orangetalents05projetoproposta.viagem.ViagemRequest;
+import br.com.zuporange05.orangetalents05projetoproposta.viagem.ViagemResponse;
 
 @FeignClient(name="cartao", url="${client.cartao}")
 public interface CartaoFeign {
@@ -20,5 +22,7 @@ public interface CartaoFeign {
 	@PostMapping("api/cartoes/{id}/bloqueios")
     BloqueioDetalhe bloqueioCartao(@PathVariable(name = "id") String numeroCartao, @RequestBody BloqueioDto request);
 	
-
+	@PostMapping("/api/cartoes/{id}/avisos")
+    ViagemResponse avisoViagem(@PathVariable(name= "id")String idCartao, @RequestBody ViagemRequest request);
+	
 }

@@ -34,12 +34,6 @@ public class Cartao {
 	@OneToOne(mappedBy = "cartao")
 	private Proposta proposta;
 	
-	@OneToOne(mappedBy = "cartao")
-	private Biometria biometria;
-	
-	@OneToOne(cascade = CascadeType.MERGE) @JoinColumn(name = "bloqueio_cartao")
-    private BloqueioCartao bloqueio;
-	
 	@Enumerated(value = EnumType.STRING)
 	private StatusCartao statusCartao = StatusCartao.ATIVO;
 
@@ -81,13 +75,6 @@ public class Cartao {
 		return proposta;
 	}
 	
-	public BloqueioCartao getBloqueio() {
-		return bloqueio;
-	}
-
-	public void setBloqueio(BloqueioCartao bloqueio) {
-		this.bloqueio = bloqueio;
-	}
 
 	public StatusCartao getStatusCartao() {
 		return statusCartao;

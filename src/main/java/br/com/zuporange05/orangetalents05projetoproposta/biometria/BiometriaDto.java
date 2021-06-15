@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import br.com.zuporange05.orangetalents05projetoproposta.cartoes.Cartao;
 
 public class BiometriaDto {
-	
+
 	@NotBlank
 	private String fingerprint;
 
@@ -19,10 +19,24 @@ public class BiometriaDto {
 		return fingerprint;
 	}
 
-	public Biometria toBiometria(Cartao cartao, byte[] fingerprint) {
+	public Biometria toBiometria(Cartao cartao) {
 
-		String base64Biometria = Base64.getEncoder().encodeToString(fingerprint);
-		return new Biometria(cartao, base64Biometria);
+		return new Biometria(cartao, fingerprint);
 	}
 
+	public boolean biometriaValida() {
+		
+	
+	
+		 try{
+			 Base64.getDecoder().decode(fingerprint);
+			 return true;
+			}
+		 catch(IllegalArgumentException e) {
+			 
+		 return false;
+		 }
+		 
+	}
+	
 }

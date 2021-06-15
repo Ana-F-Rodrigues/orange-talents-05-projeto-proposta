@@ -21,43 +21,42 @@ import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoRepositor
 @RestController
 @RequestMapping("/biometria")
 public class BiometriaController {
-	
-	
+
 	private CartaoRepository cartaoRepository;
 	private BiometriaRepository biometriaRepository;
-	
-	
+
 	@Autowired
 	public BiometriaController(CartaoRepository cartaoRepository, BiometriaRepository biometriaRepository) {
 		this.cartaoRepository = cartaoRepository;
 		this.biometriaRepository = biometriaRepository;
 	}
-	
+
 	@PostMapping("/{id}")
-	public ResponseEntity<?> cadastroBiometria(@PathVariable("id") Long id, @RequestBody @Valid BiometriaDto request, UriComponentsBuilder builder){
-		
+	public ResponseEntity<?> cadastroBiometria(@PathVariable("id") Long id, @RequestBody @Valid BiometriaDto request,
+			UriComponentsBuilder builder) {
+
 		Optional<Cartao> existeCartao = cartaoRepository.findById(id);
-		
-		if(existeCartao.isPresent()) {
-			
-			Biometria biometria = request.toBiometria(existeCartao.get(), request.getFingerprint().getBytes());
+
+		if (!request.biometriaValida()) {
+			return ResponseEntity.unprocessableEntity().build();
+		}
+		if (existeCartao.isPresent()) {
+
+			Biometria biometria = request.toBiometria(existeCartao.get());
 			biometriaRepository.save(biometria);
 			URI uri = builder.path("/propostas/{id}").buildAndExpand(biometria.getId()).toUri();
 			return ResponseEntity.created(uri).build();
-			
-			
+
 		}
-		
-		if(existeCartao.isEmpty()) {
-			
+
+		if (existeCartao.isEmpty()) {
+
 			return ResponseEntity.notFound().build();
-		
-			
+
 		}
-		
+
 		return ResponseEntity.badRequest().build();
-	
-		
+
 	}
 
 }
