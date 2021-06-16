@@ -1,5 +1,6 @@
 package br.com.zuporange05.orangetalents05projetoproposta.cartoes;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +14,20 @@ import feign.FeignException;
 
 @Component
 public class CartaoScheduler {
-	
+
 	@Autowired
 	private CartaoRepository cartaoRepository;
-	
+
 	@Autowired
 	private PropostaRepository propostaRepository;
-	
+
 	@Autowired
 	private CartaoFeign cartaoFeign;
-	
-	
+
 	@Deprecated
 	public CartaoScheduler() {
 	}
-	
+
 	@Scheduled(fixedDelay = 1000 * 60)
 	public void associaCartaoProposta() {
 		
@@ -55,11 +55,10 @@ public class CartaoScheduler {
 			} catch (FeignException e) {
 				
 				 e.printStackTrace();
-				
-			}
-			
+				 }
 		}
-		
-	}
 
+	}
+	
 }
+	

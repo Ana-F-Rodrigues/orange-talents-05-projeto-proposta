@@ -1,6 +1,7 @@
 package br.com.zuporange05.orangetalents05projetoproposta.cartoes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,10 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import br.com.zuporange05.orangetalents05projetoproposta.biometria.Biometria;
 import br.com.zuporange05.orangetalents05projetoproposta.bloqueio.BloqueioCartao;
+import br.com.zuporange05.orangetalents05projetoproposta.carteira.Carteira;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.Proposta;
 
 @Entity
@@ -36,6 +39,9 @@ public class Cartao {
 	
 	@Enumerated(value = EnumType.STRING)
 	private StatusCartao statusCartao = StatusCartao.ATIVO;
+	
+	 @OneToMany(mappedBy = "cartao", cascade = CascadeType.MERGE)
+	 private List<Carteira> carteiras;
 
 	@Deprecated
 	public Cartao() {
@@ -88,6 +94,10 @@ public class Cartao {
 	
 	public void adicionaBloqueio() {
         this.statusCartao = StatusCartao.BLOQUEADO;
+    }
+	
+	public void adicionarCarteira(Carteira carteira) {
+        this.carteiras.add(carteira);
     }
 
 }

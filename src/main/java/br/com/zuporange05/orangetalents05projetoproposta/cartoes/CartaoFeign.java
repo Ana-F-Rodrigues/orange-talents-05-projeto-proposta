@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.zuporange05.orangetalents05projetoproposta.bloqueio.BloqueioDetalhe;
 import br.com.zuporange05.orangetalents05projetoproposta.bloqueio.BloqueioDto;
+import br.com.zuporange05.orangetalents05projetoproposta.carteira.CarteiraRequest;
+import br.com.zuporange05.orangetalents05projetoproposta.carteira.CarteiraResponse;
 import br.com.zuporange05.orangetalents05projetoproposta.viagem.ViagemRequest;
 import br.com.zuporange05.orangetalents05projetoproposta.viagem.ViagemResponse;
 
@@ -25,4 +27,6 @@ public interface CartaoFeign {
 	@PostMapping("/api/cartoes/{id}/avisos")
     ViagemResponse avisoViagem(@PathVariable(name= "id")String idCartao, @RequestBody ViagemRequest request);
 	
+	@PostMapping("api/cartoes/{id}/carteiras")
+    CarteiraResponse adiciona(@PathVariable("id") String id, CarteiraRequest carteira);
 }
