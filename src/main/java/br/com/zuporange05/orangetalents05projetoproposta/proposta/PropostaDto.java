@@ -7,12 +7,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import br.com.zuporange05.orangetalents05projetoproposta.validacoes.Criptografia;
+
 
 
 public class PropostaDto {
 
 	@NotBlank
-	@CpfOuCnpj
+	//@CpfOuCnpj
 	private String documento;
 
 	@NotBlank
@@ -33,7 +35,7 @@ public class PropostaDto {
 
 	public PropostaDto(String documento, String email, String nome, String endereco, BigDecimal salario) {
 
-		this.documento = documento;
+		this.documento = Criptografia.encrypt(documento);
 		this.email = email;
 		this.nome = nome;
 		this.endereco = endereco;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zuporange05.orangetalents05projetoproposta.validacoes.ApiErrorException;
+import br.com.zuporange05.orangetalents05projetoproposta.validacoes.Criptografia;
 import feign.FeignException.UnprocessableEntity;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
@@ -45,13 +46,15 @@ public class PropostaController {
 		activeSpan.setBaggageItem("Teste do bagage", "Qual o propósito do baggage?");
 		activeSpan.log("Log do tracing");
 
-		if (documentoExiste(propostaDto.getDocumento())) {
-			throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY,
-					"É permitido apenas uma proposta por CPF/CNPJ");
-		}
+	 
+		String documentoCriptografado = Criptografia.encrypt(propostaDto.getDocumento());
+		
+	 if (propostaRepository.findByDocumento(documentoCriptografado).isEmpty()) {
 		Proposta proposta = propostaDto.converter(propostaDto);
 		proposta = propostaRepository.save(proposta);
-
+	 
+		
+		
 		AnalisePropostaDados analisePropostaDados = new AnalisePropostaDados(proposta.getDocumento(),
 				proposta.getNome(), proposta.getId());
 		try {
@@ -67,7 +70,9 @@ public class PropostaController {
 		return ResponseEntity.created(uri).build();
 
 	}
-
+	 throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY,
+			"É permitido apenas uma proposta por CPF/CNPJ");
+	}
 	private boolean documentoExiste(String documento) {
 		return propostaRepository.findByDocumento(documento).isPresent();
 	}
