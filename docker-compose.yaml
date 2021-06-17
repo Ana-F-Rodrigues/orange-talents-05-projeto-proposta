@@ -11,28 +11,7 @@ services:
     environment:
       MYSQL_DATABASE: mysql_proposta
       MYSQL_ROOT_PASSWORD: 123
-  proposta:
-    build: 
-      dockerfile: Dockerfile
-      context: .
-    image: "dockeranaflaviarod/spring" 
-    ports:
-     - 8081:8080
-    container_name: proposta
-    restart: on-failure
-    depends_on: 
-     - mysql
-     - analise
-     - contas
-    environment:
-      DATABASE_URL: jdbc:mysql://host.docker.internal:3306/mysql_proposta?createDatabaseIfNotExist=true
-      USERNAME_BD: root
-      PASSWORD_BD: 123
-      CLIENT_CARTAO: http://contas:8888
-      CLIENT_ANALISE: http://analise:9999
-      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/nossa-proposta
-      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/nossa-proposta/protocol/openid-connect/certs
- 
+
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
     environment:
@@ -93,7 +72,7 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: Pa55w0rd
       POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
-      #KEYCLOAK_FRONTEND_URL: http://keycloak:8080/auth`
+#      KEYCLOAK_FRONTEND_URL: http://keycloak:8080/auth`
 
   analise:
     image: 'zupacademy/analise-financeira'
@@ -143,6 +122,7 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
+     - ./Prometheus.yml:/etc/prometheus/prometheus.yml:rw
      - prometheus-volume:/etc/prometheus/
     network_mode: bridge
     ports:

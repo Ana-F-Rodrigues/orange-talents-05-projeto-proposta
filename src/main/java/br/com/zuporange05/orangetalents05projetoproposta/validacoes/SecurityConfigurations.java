@@ -17,6 +17,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
                         .antMatchers(HttpMethod.POST, "/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+                        .antMatchers(HttpMethod.GET, "/actuator/prometheus").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

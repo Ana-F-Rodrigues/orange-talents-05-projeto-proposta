@@ -25,53 +25,41 @@ import feign.FeignException;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 
-
 @RestController
 @RequestMapping("/carteiras")
 public class CarteiraController {
-	
 
 	@Autowired
 	CartaoRepository cartaoRepository;
-	
+
 	@Autowired
 	CartaoFeign cartaoFeign;
-	
-//	 @Autowired
-	// private Tracer tracer;
 
-	
 	@PostMapping("/{id}")
-	public ResponseEntity<?> associarCartao(@PathVariable String id,@RequestBody CarteiraRequest carteiraRequest, UriComponentsBuilder builder) {
-//	
-//		Span activeSpan = tracer.activeSpan();
-//		activeSpan.setTag("tag.teste", "testando criacao de tag");
-//		activeSpan.setBaggageItem("Teste do bagage", "Qual o propósito do baggage?");
-//		activeSpan.log("Log do tracing");
-	      
-	Optional<Cartao> cartao = cartaoRepository.findByNumeroCartao(id);
-		
-		
-       if(cartao.isPresent()){
-    	   try{
-    	   
-    	   CarteiraResponse responseCarteiraClient = cartaoFeign.adiciona(id, carteiraRequest);
-    	   Carteira novaCarteira =  new Carteira(responseCarteiraClient.getId(),carteiraRequest.getEmail(),carteiraRequest.getCarteiraEnum(),cartao.get());
-    	   cartao.get().adicionarCarteira(novaCarteira);
-    	   cartaoRepository.save(cartao.get());
-    	   URI uri = builder.path("/carteiras/{id}/{idCarteira}").build(cartao.get().getId(),responseCarteiraClient.getId());
-    	   return ResponseEntity.created(uri).build();
-    	 
-    	   }catch(FeignException e) {
-    		   
-    		   return ResponseEntity.status(e.status()).build();
-    	   }
-       }
-        return ResponseEntity.notFound().build();
-        
-        
+	public ResponseEntity<?> associarCartao(@PathVariable String id, @RequestBody CarteiraRequest carteiraRequest,
+			UriComponentsBuilder builder) {
+
+		Optional<Cartao> cartao = cartaoRepository.findByNumeroCartao(id);
+
+		if (cartao.isPresent()) {
+			try {
+
+				CarteiraResponse responseCarteiraClient = cartaoFeign.adiciona(id, carteiraRequest);
+				Carteira novaCarteira = new Carteira(responseCarteiraClient.getId(), carteiraRequest.getEmail(),
+						carteiraRequest.getCarteiraEnum(), cartao.get());
+				cartao.get().adicionarCarteira(novaCarteira);
+				cartaoRepository.save(cartao.get());
+				URI uri = builder.path("/carteiras/{id}/{idCarteira}").build(cartao.get().getId(),
+						responseCarteiraClient.getId());
+				return ResponseEntity.created(uri).build();
+
+			} catch (FeignException e) {
+
+				return ResponseEntity.status(e.status()).build();
+			}
+		}
+		return ResponseEntity.notFound().build();
+
 	}
-   
-	
-	
+
 }
