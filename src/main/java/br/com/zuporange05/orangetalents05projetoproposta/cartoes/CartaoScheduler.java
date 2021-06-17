@@ -11,10 +11,12 @@ import br.com.zuporange05.orangetalents05projetoproposta.proposta.Proposta;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.PropostaRepository;
 import br.com.zuporange05.orangetalents05projetoproposta.proposta.StatusProposta;
 import feign.FeignException;
+import io.opentracing.Span;
+import javassist.bytecode.stackmap.Tracer;
 
 @Component
 public class CartaoScheduler {
-
+	
 	@Autowired
 	private CartaoRepository cartaoRepository;
 
@@ -27,6 +29,7 @@ public class CartaoScheduler {
 	@Deprecated
 	public CartaoScheduler() {
 	}
+	
 
 	@Scheduled(fixedDelay = 1000 * 60)
 	public void associaCartaoProposta() {

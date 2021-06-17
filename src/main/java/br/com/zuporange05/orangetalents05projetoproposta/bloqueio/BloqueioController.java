@@ -22,6 +22,7 @@ import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoFeign;
 import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoRepository;
 import br.com.zuporange05.orangetalents05projetoproposta.cartoes.StatusCartao;
 import feign.FeignException;
+import io.opentracing.Span;
 
 @RestController
 @RequestMapping("/bloqueio")
@@ -45,7 +46,8 @@ public class BloqueioController {
 	@PostMapping("/{id}")
 	public ResponseEntity<?> bloquearCartao(@PathVariable("id") String id, @RequestBody @Valid BloqueioDto bloqueioDto,
 			HttpServletRequest request, UriComponentsBuilder uriComponentsBuilder) {
-
+		
+	
 		Optional<Cartao> checaCartao = cartaoRepository.findByNumeroCartao(id);
 
 		if (checaCartao.isEmpty()) {

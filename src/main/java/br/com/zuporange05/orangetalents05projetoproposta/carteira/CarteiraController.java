@@ -22,6 +22,9 @@ import br.com.zuporange05.orangetalents05projetoproposta.cartoes.Cartao;
 import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoFeign;
 import br.com.zuporange05.orangetalents05projetoproposta.cartoes.CartaoRepository;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
+
 
 @RestController
 @RequestMapping("/carteiras")
@@ -34,9 +37,18 @@ public class CarteiraController {
 	@Autowired
 	CartaoFeign cartaoFeign;
 	
+//	 @Autowired
+	// private Tracer tracer;
+
+	
 	@PostMapping("/{id}")
 	public ResponseEntity<?> associarCartao(@PathVariable String id,@RequestBody CarteiraRequest carteiraRequest, UriComponentsBuilder builder) {
-		
+//	
+//		Span activeSpan = tracer.activeSpan();
+//		activeSpan.setTag("tag.teste", "testando criacao de tag");
+//		activeSpan.setBaggageItem("Teste do bagage", "Qual o propósito do baggage?");
+//		activeSpan.log("Log do tracing");
+	      
 	Optional<Cartao> cartao = cartaoRepository.findByNumeroCartao(id);
 		
 		

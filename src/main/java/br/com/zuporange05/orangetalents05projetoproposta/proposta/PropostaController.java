@@ -18,11 +18,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zuporange05.orangetalents05projetoproposta.validacoes.ApiErrorException;
 import feign.FeignException.UnprocessableEntity;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @RestController
 @RequestMapping("/propostas")
 
 public class PropostaController {
+	
+
+	 @Autowired
+     private Tracer tracer;
 
 	@Autowired
 	private PropostaRepository propostaRepository;
@@ -33,6 +39,11 @@ public class PropostaController {
 	@PostMapping
 	public ResponseEntity<PropostaDto> Cadastrar(@RequestBody @Valid PropostaDto propostaDto,
 			UriComponentsBuilder uriBuilder) {
+		
+		Span activeSpan = tracer.activeSpan();
+		activeSpan.setTag("tag.teste", "testando criacao de tag");
+		activeSpan.setBaggageItem("Teste do bagage", "Qual o propósito do baggage?");
+		activeSpan.log("Log do tracing");
 
 		if (documentoExiste(propostaDto.getDocumento())) {
 			throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY,
